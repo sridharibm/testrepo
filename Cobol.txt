@@ -1,0 +1,150 @@
+Cobol:
+Cobol Compiliers
+1.OS/VS Cobol
+-1986- OS/VS Cobol released and Supports Cobol 68 and 74.
+-its compilier and runtime.
+2.VS COBOL II
+-Released 1988 
+-replaced OS/VS COBOL.
+-Support cobol 85.
+-Compilier and runtime .
+-this does not support cobol 68 and 74 so existing OS/VS COBOL programs must be modified to be compilied with VS COBOL II.
+3. COBOL for os/390 /VM.
+-Released in 1991.
+-Replaced with VSCOBOL- II.
+-Supports cobol-85.
+-compiles vscobol-II programs.
+-Also called COBOL/370 and COBOL for MVS & VM.
+-Cobol Compilier (no runtime).
+-Uses z/OS Language Environment for runtime.
+
+4.Enterprise COBOL.
+-Current COBOL compilier.
+-Released in 2002.
+-Compiles all cobol programs from VS COBOL-11 ,COBOL85 and some cobol-2002 features
+-Use zOS runtime 
+-Enterprise cobol supports many ISO 2002 COBOL standard definitions including unicode support,Object-Oriented COBOL and XML data processing.
+-Enterprise cobol supports enhancements to the Initialize statement as defined in COBOL standard.
+-Cobol report writer is different product so its not included in Enterprise COBOL.
+-IBM enterprise COBOL includes many zos specific functions .Enterprise COBOL provides features for using traditional 
+ z/OS datasets,z/OS Unix files ,JES spool and database systems.
+-Enterprise COBOL provides features so they can work ,call and commuincate with other languages including java ,c,assembler and PLI.
+-IBM Enterprise cobol includes many z/OS-system specific functions.it provide date and time functions ,memory handling services and  error handling functionality.
+-Commuincate with a terminal (TSO).
+-JES SPOOL .
+-Acces DB2 and other database systems.
+-A COBOL program last compiled with COBOL for OS/390 and VM can be compiled with Enterprise COBOL with no change.
+
+How to execute cobol modules?
+1.JCL -Submit
+2.TSO tso call 'xbmsrha.t1.load(pgm1)'
+3.CICS
+4.Cobol programs can be written to run under IMS as online programs or batch. Cobol/IMS programs must use IMS features and APIs.
+5.DB2 sp -we can execute cobol programs.
+6.zos Unix -Cobol programs can be executed from zosUnix shell.
+7.Cobol programs can be executed under Java env using Object-Oriented cobol.
+
+Language Environment:
+-Language Environment is a free z/OS component providing
+common runtime env for several IBM compilier products 
+including Enterprise COBOL.
+
+-LE provides normal functions of a runtime environment.
+including task initalization,error handling ,task termination,
+storage management and message handling.
+-LE also provides callable services to provide additional
+functionality not available from native programming languages.
+All Enterprise COBOL programs use Language Environment for runtime libraries, regardless of where they run.
+
+Runtime Options:
+-Runtime options for Enterprise cobol programs are specified using language environments(LE) options.
+-Runtime options can be done through batch Job(JCL -Exec with PARM options )
+-Alternative using same JOB with CEEOPTS DD * (include options 1,options2).
+-Cobol executes under CICS ,some language env can be modified using CICS CLER transaction.
+All Enterprise COBOL programs use Language Environment for runtime libraries, regardless of where they run.
+
+
+Batch Compilier:
+1.Program IGYCRCTL is used to compile COBOL programs using Enterprise COBOL compilier.
+2.Enterprise COBOL with IGYCRCTL(Cobol compilation) having some temporary datasets SYSUT1..sysut*.
+3.SYSIN in Job/JCL for enterprise cobol compilier is referring Cobol source code ,it can be seq,pds or unix.
+4.SYSLIB is referring copybooks for the source program (PDS dataset).
+5.Object code will be placed(class file) SYSLIN DD DSN=() ,DISP=SHR
+6.SYSMDECK - PDS dataset in the compilation JCL and purpose of this lib to copy source code with copybooks.(translated code).
+7.if NOMDECK specified then need to use temporary dataset.
+
+SuppliedProcedures:
+1.the IGYWC procedure can be used to compile a COBOL program. 
+2.Source code is specified in the COBOL.SYSIN parameter, and copybooks in the COBOL.SYSLIB parameter.
+
+UNIX:
+1.syntax to compile cobol in unix.
+cob2 myprog.cbl 
+
+Compilier options:
+1.SSRANGE -Subscript
+2.NOSSRANGE -no check.
+3.compile options can be specifed in the parm parameters of IGYCRCTL.
+4.compilier list options can be specified with PARM='OPTFILE' and pass the list options 
+//SYSOPTF DD * 
+SSRANGE LIST
+OBJ BLOCK0
+/*
+
+5.cob2 myprog.cbl -q'SSRANGE OPT' (unix way to set compilier options)
+6.EXPORT COBOPT="TRUNC(OPT) XREF" (Unix ,Export cobol options)
+7.Soure code ,We can specifiy cobol compilier listings
+CBL DBCS
+Identification Division.
+OR
+PROCESS DBCS
+Identification Division.
+
+Binding ObjectCode:
+-The binder is zos Feature that creates executable modules from object code created by compiliers
+such as Enterprise Cobol.
+-IGYWCL -Compile and binde
+IGYWCLG -Compile,bind and execute.
+-Unix binding:
+cob2 cprible.cbl (Automatically called by cob2).
+-Binder can also be called from batch independently using IEWL
+-Syslin -input object Code.
+-Binder commands can also be specified in syslin dd * 
+ INCLUDE SYSLIB(CLINC)
+ ENTRY
+ NAME CPRIME(R)
+/*
+-Output of IEWL load module is placed on SYSLMOD.
+
+Program Objects:
+-Traditioanl cobol load can be placed in PDS lib.
+-Enterprise cobol module loads are program objects ,
+A modern executable,Program Objects must be stored in an extended partitioned dataset (PDSE) or UNIX directory - they cannot be stored in
+traditional PDS datasets..
+
+BinderOptions:
+1.LKED.PARM=('RENT,LIST,NCAL') ==>Binder options can be specified in PARM of IGYWCL or IGYWCLG.
+2.In the unix , -b option for binder options
+  cob2 -b 'rent,list,ncal' myprog.cbl
+
+Convert:
+1.Move Function Display-Of(Variable-1) to Variable-2 ==> Convert Variable-1 from UTF-16 to EBCDIC, and move to Variable-2.
+2.Move Function Display-Of(Variable-1, 819) to Variable-2 ==> Convert Variable-1 from UTF-16 to ASCII, and move to Variable-2.
+3.Move Function Function-Of(Function National-Of(Variable-1), 819) to Variable-2 ==> Convert Variable-1 from EBCDIC to ASCII, and move to Variable-2.
+4.Move Function National-Of(Variable-1) to Variable-2 ==> Convert Variable-1 from EBCDIC to UTF-16, and move to Variable-2.
+5.Move Function National-Of(Variable-1, 819) to Variable-2 ==> Convert Variable-1 from ASCII to UTF-16 and move to Variable-2.
+
+Calls:
+DLLs always perform dynamic calls. They can be bound in the same executable module, or in different modules.
+Non-DLLs perform static calls if the program name is specified as a literal. Programs must be in the same executable module for static calls.
+Non-DLLs perform dynamic calls if the program name is specified in a variable. Programs can be in the same or a different executable module for dynamic calls.
+
+DLL info:
+DLLs can use long program names, 
+which makes them required by object-oriented COBOL, 
+which in turn is required when working with Java programs. 
+DLLs are also used by C/C++, so COBOL programs calling C/C++ programs may find DLLs easier.
+All Enterprise COBOL programs can use National character support, and DLLs are available, 
+but not required for any Enterprise COBOL compiler.
+
+

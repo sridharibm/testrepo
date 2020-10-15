@@ -1,0 +1,96 @@
+Java applications for DB2 z/os.
+1.DB2 JDBC driver architecture and API Calls
+2.Connection Management
+3.Db2 dynamic statement cache
+4.Best practice for SQL Execution.
+
+DB2 Panormaic view
+Languages    Connection			Drivers 						DB2 dataservers
+PhP			 Zendframework
+			  Adapters			ODBC drivers					DB2
+
+.Net		 					ODBC drivers					DB2
+javascript						ODBC driver						DB2
+
+Ruby/Python	 Javainterpreter	JDBC driver						DB2
+
+DataserverDriver for JDBC/SQLJ
+
+Javaapplications using SQLJ or JDBCAPI :
+1.Type 4 driver (using DRDA over TCPIP) to connect Db2 dataserver.
+2.Type 2 driver for unix/windows (local SQL API) to connect Db2 dataserver.
+3.Type 2 driver for z/OS (RRSAF) to connect db2.
+
+Client configurations -Distributed connectivity:
+JDBC/SQLJ (Java based clients) --> Direct Connect(type4) --> DB2 zos
+									(DRDA)
+Javascript/Ruby(Non java) --> DRDA (Directt connect) to DB2 zOS.
+Note:
+Data server clients no longer require DB2 connect server.
+Data server clients are sysplex enabled with improved availablity.
+(two phase commit not required).
+
+Getting a connection.
+JDBC 1 java.sql.driverMangagerAPI.
+Type2 - "jdbc:db2:database"
+Type4 - "jdbc:db2://host:port/database( Port is 446)
+
+Disadvantage : Reduces portability due to class name and URL.
+
+JDBC 2- javax.sql.dataSourceAPI.
+-Logical name mapped to datasource object via JNDI naming service
+-logicalname --> driver info , DB name , IP ,port ,user ,Password .etc
+-App servers used to manage and configure datasources
+-
+Context ctx = new InitialContext();
+DataSource ds=(DataSource)ctx.lookup("jdbc/sampledb");
+connection con=ds.getConnection();
+
+Driver and Connection Properties:
+-Global driver properties can be provided through java system properties or
+a properties file.
+-JDBC API defines set of properties to identify and describe a dataosurce
+implementation.
+
+Properties may be specified in any of three ways
+1.JDBC 1 connection properties passed as java.util.Properties.object
+
+2.As part of Database URL itself
+jdbc:db2://server:port/databaseName(userid/pw)
+3.using set xxx methods
+Most properites defined in com.ibm.db2.jcc.DB2BaseDataSource class.
+DSNZPARM CACHEDYN = YES (FOR dynamic SQL cache enabled)
+
+DB2 V12 SUPPORTS as bind option CONCENTRATESTMT on package.
+
+New DRDA load :
+-Easy and fast loading of data from file that resides on client.
+-Availabe with DB2 client v12.0
+-Java T4 application can use ZLOAD method in a db2 connection class.
+
+DB2Connection dbcon = (DB2Connection)con;
+String loadstmt = "TEMPLATE SORTIN " + TEMPLATE SORTOUT " + "SYSCLIEN WORKDDN(SORTIN) REPLACE PREFORMAT LOG(NO) REUSE NOCOPYPEND FORMAT" +
+                  "DELIMITED UNICODE INTO TABLE <TABLENAME>";
+String filename = "C:\\customer.data";
+String utilid = "ZLOADTEST1";
+LOADRESULT lr = db2conn.zLoad(loadstmt,dataFilename,utilid);
+int returncode = lr.getReturnCode();
+String loadmessage = lr.getMessage();
+
+Java performance problem areas:
+Java application:
+1.Autocommit(ON)
+2.Mismatch Java and Db2 data types
+3.Usuage of string for numbers
+4.Select * query -Unused columns
+5.transaction isloation (Repeateable read) 
+6.Open cursor /update for locking 
+7.consider with RS use and keep update locks
+
+JDBC problems:
+1.JDBC connection not closed.
+2.No ususage of parameter Markers
+3.cursors are definead as hold by default.
+4.
+
+			

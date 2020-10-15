@@ -1,0 +1,137 @@
+LanguageEnvironemnts for Enterprise COBOL.
+
+1.Runtime
+The runtime environment, or runtime libraries, perform many different functions. 
+Without runtime libraries, applications programs would each have to work with the z/OS operating system to perform things like initialization, memory handling, error recovery, and more.
+Initialization:
+-Initialization ,Preparing environment for called modules ..etc.
+MessageHandling:
+-Routing messages to the user.
+StorageEnvironment:
+-Manage program storage.
+Termination:
+-When program ends resource acquired storage will be cleaned up. calling program env is restored.
+ErrorHandling and recover:
+-If program crashes runtime routies recover the same.Release the storage , close open files ,produce dumps with diagnostic message.
+CommonRoutines:
+Runtime libraries include callable routines to perform frequently required functions. Like date related functions,message handling...
+
+Background of LE:
+Earlier cobol versions running on zOS does not have option to call other programming lanaguages (C, fortan..etc).
+LE:
+-This common Language environment is component of zOS. 
+-Its free one.
+-Each programming modules (object module can interact with other language).
+-CICS , IMS, DB2SP, TSO ,Batch ,zosUnix using LE .
+
+Below languages does not require zos LE common procedure library
+1.Non-compiled IBM languages such as REXX, Java, PHP, and CLIST.
+2.Non-compiled languages from other vendors such as SAS, CA Easytrieve, and World Programming WPS.
+3.Older IBM compiled languages such as OS/VS COBOL, VS COBOL II, Ada/370, APL2, and Pascal.
+4.Compiled languages from other software vendors such as SAS/C and Software AG Natural - these have their own runtime libraries.
+5.IBM Metal C - a module produced by IBM XL/C that is designed to be used without LE.
+
+Assembler and LE:
+1.Language Environment provides macros to allow Assembler programs to use Language Environment.These are called LE-compliant assembler modules.
+2.LE-compliant assembler may be used under the following conditions:
+(i)An Assembler program wants to use Language Environment features
+(ii)An Assembler program will call a High Level Language program using LE
+(iii)An Assembler program will be called by a High Level Language program using LE
+
+LanguageEnvironemnt Program Model:
+LE on zOS seperates processing in to process, enclaves and threads.
+1.Process can be CICS transactions,IMS transactions ,zosUnix Processorids
+2.An enclave is a group of programs and subroutines used to do something together.Cobol run units ,C-code with main() statement and code withing pl/I proc statement.
+3.Process will have one more enclave.
+4.Thread is dispatchable unit of work that executes within the enclave. An enclave can have one or more threads which allows
+thread to multipurposes (run at the sametime),All threads share enclave resources such as storage.
+5.Language services offers optional services that can be called from user modules.
+1.Date/time (DD-MON-YYYY format).
+2.Mathematics -Exponential ,cosign,logarithm.
+3.LE can allocate heap memory /release a heap, release storage with CEETST.
+4.Mesage handling service 
+5.Bit Manipulation - 32bits service to verify
+  clearbits ,setbits ,shiftbits and testbits
+6.LE provides services for error handling and user-written error handling routines.
+7.LE provides to create and manage enclaves.
+8.LE supplies other services include the following CEERAN0 -Random number ,CEE3INF -return system info including env(CICS,IMS and batch).
+9.LE services supports cobol,c,PL/I, assembler but not FORTRAN.
+
+LE invocation on different languages
+C:
+In C programming language , "Include <leawi.h>" includes LE callable function declarations.
+COBOL:
+In cobol , CALL 'CEExxxx' USING PARM1,PARM2,FC. and also use Include CEEIGZCT in the working-storage section to include copy libraries to handle feedbcak codes.
+PL/I
+LE services are called from PL/I using call command.
+CEEIBMAW: this include holds declarations working with LE functions.
+CEEIBMCT: include holds declarations working with LE Feedback codes.
+sample library:
+SYS1.SCEESAMP -Sample code for calling LE services is included  in the LE SCEESAMP sample lib.
+
+Language Environment options:
+1.System wide LE options are specified by zos System programmer.
+2.options can also set through Job Params.
+3.CEEOPTS DD *
+4.LE options can set for C/C++ ,PL/I program source.
+5.LE options cannot be specified within cobol, fortran or assembler source.
+6.Under CICS some LE can be modified using CICS CLER transaction.
+
+Storage Management:
+-Language Environment obtains storage for use by application programs
+-Some of this storage is obtained at initialization time, others as requested by the application program using LE callable services.
+-Runtime stack is used to store module linkage informations
+-Heap storage is used to store module working storage sections, it can be shared by all threads in the enclave.
+-Heap storage is released explicity by programs -Enclave termination, program ends,c(Free).
+
+
+First Summary:
+Only Enterprise COBOL, PL/I, and IBM XL C/C++ use Language Environment.
+Many runtime environments provide callable services, or allow programs to perform their own error handling. 
+These are not advantages of LE over individual runtime environments.
+
+
+Problem determination:
+A Language Environment condition is an event requiring attention by an application program. It could be an abend, an error opening a dataset, or an incorrect call to an LE service.
+A program can generate its own condition. For example, a C program can call the raise() function, or a PL/I program the SIGNAL statement. 
+Programs can also call the LE function CEESLG to create a condition.
+
+Condition Handling:
+LE provides services to allow programs to be notified of conditions, and to optionally handle them: condition handling routines. For example, a program may specify a condition handling routine to recover from an error opening a file: possibly a message or alternative processing.
+When it detects a condition, LE will search through all programs currently active, from last called to first called, looking for condition handlers. If none are found, the default handling is performed.
+LE provides callable services to assist in creating LE messages.
+
+If a condition is severe, the system, condition handler, program, or LE may decide to abend the program. An abend is an 'abnormal end'.
+
+DUMPS:
+SYSMDUMP-unformatted dump.Analyzed using z/OS tool IPCS.
+SYSUDUMP-Format dump for user areas.
+SYSABEND-formatted dump of user and system areas.
+
+LE DUMPS:
+LE option TRAP must be ON for LE to perform condition handling ,including producing dumps.TRAP(ON)is default.
+LE TERMTHDACT option determines the option (Quiet -no message/dump, MSG-message but no dump,DUMp (Message and dump without trace),UADUMp, UATRace.
+LE ABTERMENC option LE processing when an unhandled condition of severity>=2 occurs. Abend- enclave ,RETCODE-> end enclave with return code.
+Language Environment dumps can be produced in a number of situations. When dumps are created, their content will depend on LE options.
+(Areas to be dumped can also be specified in CEE3DMP options).
+
+Summary:
+1.Application programs can create a condition by calling the Language Environment CEESGL service, or other language-specific functions. 
+A successful call of an LE service is not a condition.
+2.
+Language Environment messages within CICS go to the CICS CESE TD queue. Otherwise they go to the DD name specified in the MSGFILE LE option (default SYSOUT). The message suffix is S, indicating a severe error. This message begins with CEE, indicating that LE common services issued the message. 
+Other LE message prefixes include IGZ (LE COBOL runtime), IBM (LE PL/I runtime), and EDC (LE C/C++ runtime).
+3.
+LE produces formatted dumps - tools such as IPCS are not required. LE dumps hold a lot of useful information that can be used by systems programmers, application programmers, and other involved in problem determination. LE options such as TRAP and TERMTHDACT determine when an LE dump is produced.
+
+Final Summary:
+1.A thread cannot create another thread
+2.LE services can be called from any programming language using LE except Fortran.
+3.LE options can be set in C using the #pragma statement, or in PL/I by setting the external variable PLIXOPT. However they cannot be set in COBOL code.
+4.LE conditions are events that require the attention of an application program. A normal termination of an enclave does not need the attention of an application.
+5.The JCL sets the Language Environment parameter MSGFILE to DD1. Hence all LE messages will be sent to the DD DD1 - JES SPOOL class X in this case.
+6.Although LE messages may be sent to the SYSOUT DD, LE dumps are not. Compiler options do not determine when a dump will be taken.
+(lOOK IN SYSOUT and confirm compile options are not valid one)
+
+
+

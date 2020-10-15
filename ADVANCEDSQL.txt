@@ -1,0 +1,65 @@
+SELECT COALESCE(A.DEPT_ID,B.DEPT_ID),D_NAME, E_NAME
+FROM ( SELECT DEPT_ID , D_NAME FROM DEPARTMENT WHERE DEPT_ID <> 'D238' ) A
+FULL OUTER JOIN
+	(SELECT DEPT_ID,E_NAME FROM EMPLOYEE WHERE DEPT_ID <> 'D238') B
+ON A.DEPT_ID = B.DEPT_ID;
+
+
+Use the DISTINCT SQL Keyword
+The DISTINCT keyword causes a SELECT to return only non-duplicate rows.
+A row is a duplicate and is excluded by the DISTINCT keyword if the value of all columns in two rows is the same.
+
+sample querys:
+1.SELECT * FROM DEPT WHERE DEPTNO IS DISTINCT FROM ADMRDEPT
+2.
+CREATE TYPE XLIST AS CHAR(3) ARRAY[5];
+SET XLIST = ARRAY[P01,P11,P12,P13,Q21];
+
+SELECT * FROM CUSTOMER WHERE IDPRE IS DISTINCT FROM XLIST;
+NOTE:
+The second example is comparing a value to a set of values stored in an array.
+Use the SQL CASE Expression
+SELECT EMPID, E_NAME FROM EMPLOYEE 
+WHERE CASE	
+		WHEN SALARY = 0 THEN 0
+		ELSE BONUS/SALARY 
+	  END > 0.30;
+
+SELECT PLANID, PLAN_DESC FROM INSURANCE
+WHERE PLAN_ID  IN (SELECT CASE 
+						  WHEN SALARY > 6000 THEN "B"
+						  ELSE 'A'
+						 END FROM EMPLOYEE);
+
+CASE WITH update clause:
+UPDATE EMPLOYEE
+SET SALARY =  CASE DEPT_ID WHEN 'D123' THEN SALARY * 1.30
+						   WHEN 'D238' THEN SALARY * 1.20
+						   ELSE SALARY
+			  END;
+
+Create UNIONs to Combine Data from Multiple Selects
+Create and Use Views to Protect or Aggregate Underlying Table Data
+
+
+SUBQUERIES:
+A subquery is a SELECT statement located within a WHERE or HAVING clause of an INSERT, UPDATE, MERGE, or DELETE SQL statement.
+SELECT PRNOE ,PRREVE
+FROM PITPRUD A
+WHERE (PRNOE ,PRREVE) IN 
+(SELECT PRNOE,PRREVE 
+ FROM PITPREU WHERE EUCCEN = 'EAR99' )
+;
+SQL supports nesting of subqueries with the current version supporting 64 levels of nesting
+
+SELECT PRNOE,PRREVE 
+FROM PITPRUD
+WHERE PRREVE = MAX(PRREVE)
+WITH UR;
+This query does not work because aggregate functions can only be used in a SELECT statement or a GROUP BY clause.
+
+In other words, you cannot use aggregate functions in the WHERE clause. If you want to use any of the aggregate functions like SUM, COUNT, MAX, and MIN in a WHERE clause, you must use a subquery.
+
+A non-correlated query is always executed once before the outer query. WHEREAS correelated subquery is always executed once for each row.
+A subquery must return the same number of columns as the number of columns on the left side of the comparison operator.
+The values from the outer query are passed to the inner query by referencing the correlation name of the table in the outer query.

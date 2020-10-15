@@ -1,0 +1,69 @@
+Explain:
+-Sometimes a performance problem might be caused by the access path used by a SQL statement. 
+-The access path is Db2's calculation of the best method used to obtain the information requested.
+
+Updating access plan information:
+To cater for this ever changing data, the RUNSTATS utility can be run. 
+This utility will gather information on the attributes of data associated with table spaces, indexes and partitions and record it in the Db2 catalog, where it will be referenced when Db2 needs to determine an access path.
+
+Explain Tables:
+The Db2 EXPLAIN facility captures statistics about SQL statements that have an EXPLAIN statement embedded in it, or if a bound plan or package contains the appropriate EXPLAIN option. 
+When this occurs, Db2 will populate pre-defined EXPLAIN tables with access path information.
+Db2 for z/OS, the PLAN_TABLE table is one of the main tables used to store data.
+
+Other Explain tables:
+1.plan_table
+2.dsn_function_table
+3.dsn_statement_table
+4.dsn_statement_cache_table
+5.dsn_struct_table 
+
+PLAN_Table usuage:
+1.Determines access path for a statement.
+2.Determines when to rebind plan/package.
+3.Assist with database design decisions such as new or additional indexes.
+
+The Db2 EXPLAIN facility can be used to obtain access path information about:
+1.Dynamic SQL
+2.Static SQL in a plan
+3.Static SQL in a package
+
+Create PLAN_Table:
+The PLAN_TABLE stores information on the access path, sorting, join method, and issues such as parallel processing, limited partition scan, 
+whether access path hints were used, whether the direct access method was chosen to retrieve data, and more.
+
+As mentioned previously, the code used to create a PLAN_TABLE is located in the DSNTESC member of the Db2 sample library. 
+A quick method used to create your own version of the PLAN_TABLE is shown above.
+
+CREATE TABLE XBMSRHA.PLAN_TABLE LIKE SYSIBM.PLAN_TABLE;  (OR)
+CREATE TABLE XBMSRHA.PLAN_TABLE LIKE V1DPIS.PLAN_TABLE;
+
+COMPUTE RANDOM-VALUE = FUNCTION RANDOM (1) * 52 + 1.
+
+The PLAN_TABLE is a user table so the user must add indexes for performance, delete old entries, and do comparisons between old and new entries in the PLAN_TABLE for a particular plan, package, or SQL statement.
+1.Use the EXPLAIN(YES) option when binding the plan or package
+2.Use the BIND or REBIND command and include the EXPLAIN(ONLY) option when binding a package
+3.Issue the EXPLAIN statement statically from an application program
+4.Issue the EXPLAIN statement dynamically by using Db2 QMF, SPUFI, or the command line processor
+-EXPLAIN PLAN FOR SELECT * FROM V1DPIS.PITPRUD
+5.For an application, include the CURRENT EXPLAIN MODE special register.
+
+Accessing information:
+plan_table can be interrograted using SQL.
+
+Datastudio
+1.Open datastudio
+2.connect to DB
+3.Start tuning
+4.New project tab,there are several tuning options ,click 'Invoke Advisors and Tools button'
+5.'select what to run'
+6.Open Access Plan Graph - Graphicall representation can be seen.
+7.The Summary Report shows a summary of statistics collected, and a list of recommended actions. 
+This is shown by selecting Open Summary Report in the left hand pane.
+
+
+
+
+
+
+
