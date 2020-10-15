@@ -1,0 +1,82 @@
+Cobol for z/os Performance:
+1.two modules can have single load module with two differnet compile options in the enterprise cobol version.
+2.Either parm or sysoptf option.
+3.CALL 'IGY.V6R1M0.SIGYCOMP(IGYCRCTL)' 'option1,option2'
+4.CBL option1 , option2
+
+Compilier optimization:
+-The IBM Enterprise COBOL compiler can optimize input COBOL code as it is compiled.
+-The Optimize (or OPT) and STGOPT parameters control this optimization. Programs are often initially developed with no optimization for easier debugging, 
+and then recompiled with optimization enabled for better performing code.
+
+ARCH:
+Option		Machine
+ARCH(7)-	z9-2007
+ARCH(8)-	z10-2008
+ARCH(9)-	z114(released 2010)
+ARCH(10)-	EC12 /BC12(2013/2014
+ARCH(11)- 	z13 (2015)
+
+Numbers and the compilers:
+AFP(NOVOLATILE) ->Floating point numbers
+ARITH(COMPAT) 	->PIC statements can have up to 18 digits instead 31.
+HGPR(NOPRESERVE) -> only using 32 bits instead of 64 bit registers.
+NOSSRANGE -> Skip subscript/index checking .
+
+TRUNC
+-> Performance wise is not good.
+TRUC(BIN)
+-> in case size execeeds for BIN , comp ,comp-4 ,TRUNC (BIN) is trucated to 65535 to fit in to 2 bytes allowed for 4 digit numbers.
+TRUNC(STD)
+->TRUC(STD) instructs COBOL to truncate the value to the number of digits defined ,In this case number is truncated to 9999.
+->better performance compare to BIN.
+TRUNC(OPT) -Will never exceed the length and better performance BIN and STD.
+
+Sequential I/O:
+-Buffer is introduced as BLock 0 to keep records in the buffer for read/write in to dataset.
+-BLOCK contains 0 records. this will result optimal block size  for disk/tape device holding the file.
+-APPLYWriteonly (AWO) option increase more performance.
+
+SORT:
+COBOL uses the NOFASTSRT compiler option, which instructs Enterprise COBOL to perform I/O for programs using the file SORT statement.
+
+LE performance options:
+1.STORAGE (off)
+2.CHECK (off)
+3.ALL31(24 AND 31 BITS ADDRESS MODE).
+4.DEBUG(OFF)
+5.RPTOPTS/RPTS5TG 
+randorm number in cobol:
+COMPUTE RANDOM-VALUE = FUNCTION RANDOM (1) * 52 + 1.
+Other runtime options:
+COBOL programs often execute within another subsystem such as IMS, CICS or DB2, as a stored procedure. 
+These subsystems may have other configuration options that can influence the performance of a COBOL program, in addition to the Language Environment options. 
+The systems programmer managing this subsystem can be consulted about these options.
+summary:
+The higher the ARCH number, the better performance. So ARCH(11) will have better performance than ARCH(7). 
+The ARCH parameter was introduced in Enterprise COBOL 5.1. So this cannot be an Enterprise COBOL 4.3 compiler step.
+The ALL31 option instructs Language Environment that no programs or subprograms will run in 24 bit mode. So PROG1 cannot run in 24 bit mode. 
+Some Language Environment options can be specified in CICS using the CLER transaction.
+The CBL statement cannot be used to set Language Environment runtime options.
+
+Datatypes:
+-Floating point arthimetic use comp-1 or comp- 2 instead of COMp, comp3 or binary.
+-Fixed point computations can be converted to floating point 
+-Use Move instead of initialize.
+-Initialization of storage need not be done in the module/program.
+-When need initialize or MOVe 0 to the variable instead of always.
+-Move function(change to lower/upper case) is not advisible instead of use INSPECT.
+-Enterprise cobol provide functions National-of and display-of to convert code pages to and from national data (UTF-16)
+ Together these functions can be used to efficiently convert between code pages.
+-Table subscript should be defined as binary variables instead of comp-3 decimal.
+-Use table index instead subscripts (SET table-index to 1) -faster than subscript.
+-when defining a variable length table using OCCURS  DEPENDING ON. Dependent variable should be defined as binary(Comp) to improve perf.
+-Search always use SEARCH ALL (BINARy search).
+-Perform sub1 and it calls SUB2 ,Compare this performa para1 thru para2 (Improve performance- No jump is happening).
+-
+
+
+   
+
+
+  

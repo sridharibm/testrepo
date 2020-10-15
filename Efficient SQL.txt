@@ -1,0 +1,56 @@
+Efficient SQL:
+1.Use column name instead of *
+2.Thing and do orderby /group 
+3. Distinct can be used as per recent database optimizer otherwise can use subquery to avoid duplicates.
+4.Predicates
+Stage-1 Indexable
+-col = value , value between  col1 and col 2
+-col between vale1 and value2.
+-col like pattern
+-col is not distinct from value
+-substr(col,1,n) = value
+-date(col) = value
+
+Stage-2 Non indexable
+col <> value
+col not between value1 and value2
+col not like 'char'
+col is distinct from value
+
+stage -3 non indexable
+col = correlated subquery
+T1.COL1 <> T1.COL1
+EXISTS(SUBQUERY)
+expression = value
+
+Predicate Order:
+1.Equal
+2.Between
+3.In-list
+4.Like
+
+Boolean term Predicates:
+For SQL join operations, try to replace non-boolean term predicates with boolean ones. A Boolean term predicate is one that is connected by AND logic. When it is evaluated false for a particular row, makes the entire WHERE clause false for that particular row.
+During a join operation a boolean predicate can reject rows at an earlier stage while non-boolean predicates can increase the amount of processing because rows cannot be immediately discounted.
+
+Subquery Efficiency:
+You have seen on previous pages how many SQL statements can be written in another way in order to improve their performance. Subqueries, which are SELECT statements within a WHERE or HAVING clause, fall into this same category.
+For example, the use of IN and EXISTS in subqueries can be used to produce the same results. The decision on which one to use is not as straightforward as it depends on the amount and type of data being accessed, and the access method chosen by the Db2 Optimizer. You should run the EXPLAIN facility against each type of subquery to determine its efficiency.
+
+
+MQT:
+For complex queries working with large amounts of data, you may want to consider using materialized query tables (MQT). These tables are basically a subset table created from one or more source tables and created in advance.
+Using these instead of the source table can improve query performance and leave the base tables fully normalized
+
+Scrollable Cursors:
+Scrollable cursors can be very efficient if the result table is small and you are required to move backward and forward to access information. However, this type of processing is more labor intensive than using non-scrollable cursors, so you should test and analyze each situation to determine the most efficient process.
+When using scrollable cursors below needs to be done
+1.SENSITIVE - To ensure latest data 
+2.FETCH FIRST num ROWS ONLY  can be used withs scrollable cursor.
+3.Bind with ISOLATION(CS) and CURRENTDATA(NO) for scrollable cursors.
+4.Consider making commits often.
+
+Query transformations:
+One last note about your SQL code.
+As you have just seen, when looking at the EXPLAIN data your SQL may have changed slightly from what was originally coded. This is because Db2 can automatically identify from your code where it can improve access path efficiency and will rewrite the query.
+Note that IBM Data Studio can display query transformations performed by the Db2 Optimizer

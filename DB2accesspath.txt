@@ -1,0 +1,91 @@
+DB2 access path:
+How access path selected by DB2?
+1.Number of rows in the table
+2.Number of unique values in the table.
+3.amount of data in the table.
+4.index pages
+5.How well organized  data is.
+
+Tablespacescan:
+-The SQL code displayed here produces the highlighted PLAN_TABLE entry.
+-An ACCESSTYPE of R indicates that a table space scan is used to access the table. 
+-PREFETCH indicates whether data pages are to be read in advance by prefetch. 
+-A value of S indicates that a pure sequential prefetch will occur. This type of access is common when:
+-there is no index for the table (so no index scan can occur)
+-the majority of rows in the table will need to be read
+-the amount of data being accessed is small.
+
+Index access usually provides the most efficient access to data. 
+-There are several types of index accesses that Db2 can perform depending on what needs to be accessed and the size and type of data.
+-In the PLAN_TABLE, the ACCESSTYPE and MATCHCOLS columns contain information about the index use for that particular access path. 
+-The highlighted record shows what is referred to as a 'matching index' scan. 
+-This type of scan is efficient as only specific index pages and data pages need to be accessed.
+1.AccessCreator -Index name
+2.AccessName - INdexed columns
+3.AccessType - 
+	I ->Used table Index.
+	M - Multiple Index access processing , 
+	MX- Indexes are to be scanned for later union ,
+	MU- A union (OR) is performed.
+	I1- >the ACCESSTYPE column value is I1 indicating that a one fetch index access would be performed.It is used when the MIN or MAX aggregate function.
+	NR -> If your SQL contains an OR predicate, Db2 can simplify processing and reduce resource usage by providing a single scan of the index. 
+		 This is called a range-list index scan and is identified in the PLAN_TABLE as it has a value of NR in the ACCESSTYPE column.
+	N ->The ACCESSTYPE value of N indicates this type of access (IN predicate), while the MATCHCOLS column shows the number of index keys used in the index scan.
+4.Matchcols - > No of index keys used in the scan. (number).
+5.IndexONly -->
+In the PLAN_TABLE example highlighted here, an INDEXONLY column is displayed in the filter and its value of Y indicates that access to the index was sufficient to satisfy the SQL request.
+
+6.PRIMARY_AccessType
+ D- if a table has been created with a ROWID column then it can use the values in that column to navigate directly to a row. 
+	Once an application has obtained a ROWID value, it can use it in subsequent SELECT, UPDATE, or DELETE statements to move directly to that row, bypassing an index and table space scan. 
+	This makes for fast access.
+
+HASH Access:
+	-Create a table with HASH keyword
+	-create table table1 ( colms) ORGANIZE BY HASH UNIQUE(columnname)  HASH SPACE 64M;
+	-These types of tables are efficient for access by queries that use equal predicates that are unique to individual rows in the table. This type of organization and access can reduce CPU loads, 
+	 but will require additional storage space to cater for the hash space.
+	-AccessType (H- Hash access) ,HN(IN -predicated HAsh access) or MH (Overflow Index).
+
+Prefetch:
+-Db2 has a facility called prefetch that can read multiple data pages it will know it is going to use, into buffer pools 
+-which improves performance because multiple read requests do not need to be processed through the I/O subsystem).
+-Prefetch values->
+=> (L /U-value indicates list prefetch where datapages read in to buffers, S -Indicates sequential prefetch where DB2 will read sequentail from the buffer.
+    D- Dynamic prefetch data pages are going to read sequentially (Algorthim based).  
+The prefetch facility is used to read a set of pages that Db2 has determined it will need, into the buffer pool using a single asynchronous I/O operation.
+SortAccess:
+Type of sort activities:
+1.a GROUP BY or ORDER BY clause
+2.a SELECT DISTINCT statement where duplicate rows are being removed
+3.sorts performed during join operations
+4.sorts performed by subqueries (so that sorted information is sent back to the parent query)  
+
+Other type of access /JOIN Operations:
+METHOD in PLAN_Table:
+Db2 performs a number of processes when joining tables, with the result dependent on predicates that are specified, MERGE statements used, and any internal sorting as a result of ROWIDs and indexes.   
+0- Indicates table is first to be accessed
+1-Indicates nested loop join matching rows from the second table and joined to each row of the first table.
+2-Indicates Merge scan join. Matching rows are joined.
+3-Indicates some type of sorting is being performed ,Orderby ,GroupBy, Distinct ,UNIOn,intersect,except and IN predicates are used.
+4-Indicates Hybrid join ,first table is scanned in the order of join-column rows of second table and second table is accessed using list prefetch.
+
+SUBQUERY Access:
+If your SQL contains subqueries, then they can be identified in the PLAN_TABLE also.
+In the example shown here, the SQL code has produced four rows of data. 
+The row containing DSNWFQB(02) in the TNAME (table name) column is the subquery, 
+and the 02 is referring to the query block number (QBLOCKNO) associated with the subquery.
+Example: Tname --> DSNWFQB(02)
+
+Access Path Management:
+1.Is access through Index?
+if plan_table AccessType columns is I ,IN ,I1,N,MX,or DX.
+2.Is access through Multiple Index? -Accesstype is MX , MU , MI , M,DX ,DI, DU.
+3.How many index colns used? -->Matchcols.
+4.Does query need to only use INDEX? -->INDEXONLY 
+5.Is direct row access possible? -->ROWID
+6.Is any prefetching occuring? D, S,L, U 
+7.How data is being sorted? SortAccessfields -->group by , orderby.
+8.How are subqueries being processed? TNAME in Plan_Table are related to SubQueries.
+
+
