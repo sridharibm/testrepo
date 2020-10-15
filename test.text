@@ -1,0 +1,5 @@
+testing purpose
+ssh-keys are common so that one key is maintained 
+eval ssh-agent -s
+exec ssh-agent BASH
+ssh-add 
