@@ -1,0 +1,11 @@
+SELECT  COUNT(SQLCODE) as "Deadlock/Timeout",MONTH(INTERVAL_START)  as "Month"             
+FROM PTI.PDT_SQLERROR_160                                                  
+WHERE ( SQLCODE IN ( - 911 , - 913 )                                        
+AND AUTHID = 'V1FPLMP'                                                    
+AND "COLLID" <> 'NULLID' )                                                
+AND DATE ( INTERVAL_START ) >= '2020-01-01'   
+AND DATE  ( INTERVAL_START) <= '2020-10-14'
+AND PROGRAM NOT LIKE 'GA%'
+--AND PROGRAM = 'PIPF7AAE'
+GROUP BY MONTH   (INTERVAL_START)
+WITH UR;                         

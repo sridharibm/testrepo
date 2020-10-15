@@ -1,0 +1,8 @@
+SELECT * FROM U1DB2.HUTWREQ
+WHERE REQUESTID LIKE 'RCSCI1%'
+AND RECORDTYPE LIKE 'include%'
+
+WITH UR;
+
+ select * from u1db2.hutwreq 	
+ where requestid = 'RCSCI1_2020-08-12 01:13:19.069.88' with ur; 	  

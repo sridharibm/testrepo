@@ -1,0 +1,1 @@
+select * from xbmsrha.plan_table with ur;

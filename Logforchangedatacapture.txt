@@ -1,0 +1,10 @@
+SELECT  A.LOG_USER , A.LOG_TIMESTAMP , A.LOG_TYPE , A.LOG_FUNCTION ,
+        A.LOG_OBJECT_CREATOR , A.LOG_OBJECT_NAME                    
+   FROM PTI.PTLOG_MAIN_1500 A                                       
+  WHERE ( A.LOG_ID IN ( 'RCUPDATE' , 'BTCHPROC' )                   
+    AND A.LOG_FUNCTION ¬= 'TEMPLATE' )                              
+    AND ( A.LOG_USER = 'XBMSRHA' )                                  
+    AND ( A.LOG_TIMESTAMP LIKE '20200921%' )                        
+    AND A.LOG_FUNCTION LIKE 'I:%'                                   
+                                                                    
+                                                                    

@@ -1,0 +1,7 @@
+SELECT LOGDATE,USERID, SUM(NBR_OF_CALLS)
+FROM U1DPH0.TXCDLOG                                                  
+WHERE LOGDATE >= '2020-07-01'
+AND LOGDATE <= '2020-07-31'
+AND IPCLIENT = 'EUPWREQ_1'
+GROUP BY LOGDATE,USERID                           
+WITH UR;

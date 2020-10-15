@@ -1,0 +1,66 @@
+User,Applname
+ADPAURE   ,Auto Release ID for ADP                                         
+ADPAUTO   ,ADP Automation                                                  
+ADPCMYP   ,User for CMYP DP-RAF                                            
+ADPKIBA   ,Kibana in ADP                                                   
+ADPTSEC   ,ADPTSEC (FID release automation)                                
+BCATJOB   ,BCAT Common Software releases                                   
+BSSCICD   ,OSS/BSS SYSTEMS                                                 
+CBACICD   ,CBA CICD automation ID                                          
+CDDAUTO   ,User for CDD Services                                           
+CIFLASH   ,PDU SYSTEMS CI                                                  
+CMAUTPH   ,PRS -PRIM/GASK
+CMBSCSRV  ,Clearcase administrator for server                              
+CONFIGDM  ,LabOps Config Data Management Func ID                           
+CSBADPCI  ,CI for SCTP and SS7 micro services                              
+EADPHUB   ,Fucntional ID for the ADP Hub                                   
+ECPWSEGD  ,CPWS wrapper                    
+EDXPOPS   ,DxP DevOps                                                      
+EEDAUMI   ,UMI user for GASKing                                            
+EFEATST   ,FEATURE STORE                                                   
+EIFFREL   ,Eiffel Release Account                                          
+ELTBUSER  ,LTB system user                                                 
+EMMGWCI   ,LMF M-MGw CI                                                    
+EPLMUSR   ,To implement the PLM webservices                                
+EPRDEDG1  ,Automation production account for TSM-2                         
+ESCFUSRA  ,Application ID for Ericsson Configuration                       
+ESEDPROV  ,Functional user account for cloning repo                        
+ESVLTDK   ,Id for TDK instance used for SVL automation framework           
+ESWDPUSR  ,User for accessing PRIM (SWDP project)                          
+ESWGINT   ,Service Account for Integrations                                
+ESWRADHW  ,RaRadioSw/Radio database                                        
+ETEAPRIM  ,TEA new 8 char functional ID                                    
+FHRELMAN  ,Account for CI CD Automation                                    
+GAMMAADM  ,Admin user for GAMMA services                                   
+GSMDSPSW  ,GSM BTS DSP SW                                                  
+HWDPM1    ,HW DPM Release Planning Tool for ECD                            
+IBASE01   ,IBase System User 01                                            
+KACXAPI   ,Karlskrona CX API                                               
+LGAUTO    ,User for CICD                                                   
+LTEGTE    ,LTE GTE                                                         
+MSPTUSER  ,MSPT functional ID                                              
+MWTNMGR   ,Manager account for MW TN products                              
+OPEMPRIM  ,PDA - PeM Application ID for PRIM API                           
+PAFTOOL   ,PAFTOOL Application                                             
+PIERIDOC  ,EriDoc PRIM connection                                          
+POCOMDEV  ,Portfolio and Commerce Development ID                           
+PQATECD   ,PQAT for ECD                                                    
+PRPLMWS   ,PrediTool in PLM webservices                                    
+RCSCI1    ,RCS CI Functional User                                          
+RCSPROD   ,RCSPROD                                                         
+RYRHDILX  ,Used for SAM to access PLM Web Service                          
+R6KAUTO   ,r6k auto release                                                
+SAPPIAPP  ,Service user for SAP PI                                         
+SAPPIAPT  ,Service Account for SAP PI Test                                 
+SBGISCI   ,IMS/SBG IS CI                                                   
+SBGJIRA   ,SBG JIRA sync                                                   
+SWSUPPLY  ,SW SUPPLY IT SYSTEMS                                            
+S1CBCPLM  ,CBCPLM Functional account                                       
+UNITDB1   ,service account for unit database                               
+USERXCI   ,X-CI Infrastructure functional ID                               
+U1ABCDE   ,ABCDEC Reg                                                      
+V1DPRO    ,PDU PC Deployment Pipeline VER RO 1                             
+V1EVMSCI  ,EVMS CI account                                                 
+V1GSMCM   ,User for automated tasks for BSS.                               
+V2PDRW    ,PDU PC Deployment Pipeline VER RW 2                             
+ZAPHOD1   ,PC release pipeline                                             

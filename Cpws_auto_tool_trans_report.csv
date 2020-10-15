@@ -1,0 +1,48 @@
+Month,2020 (Jan-Jul),
+User,Functional User account description(Appln/tool name),Interface (Cpws)
+ADPAURE ,Auto Release ID for ADP                                         ,PDI 
+ADPAUTO ,ADP Automation                                                  ,PDI 
+ADPCMYP ,User for CMYP DP-RAF                                            ,PDI 
+ADPKIBA ,Kibana in ADP                                                   ,PDI 
+ADPTSEC ,ADPTSEC (FID release automation)                                ,PDI 
+ARWAUTO ,Eiffel007 functional account                                    ,PDI 
+BAZAAR  ,3PPT SW BAZAAR                                                  ,PDI 
+BCATJOB ,BCAT Common Software releases                                   ,PDI 
+BEAMEPC ,BEAM OCS EpCreator                                              ,PDI 
+BSSCICD ,OSS/BSS SYSTEMS                                                 ,PDI 
+CDDAUTO ,User for CDD Services                                           ,PDI 
+CIFLASH ,PDU SYSTEMS CI                                                  ,PDI 
+EADPHUB ,Fucntional ID for the ADP Hub                                   ,PDI 
+EDXPOPS ,DxP DevOps                                                      ,PDI 
+EEDAUMI ,UMI user for GASKing                                            ,PDI 
+EFEATST ,FEATURE STORE                                                   ,Lighthouse     
+EMMGWCI ,LMF M-MGw CI                                                    ,PDI 
+ENVCOMP ,EriMate application user                                        ,ERIMATE        
+EPHTEST ,PH-TOOL testuser                                                ,pdmtool        
+ESEDPROV,Functional user account for cloning repo                        ,PDI 
+ESWBAPP ,SWB Application                                                 ,SWB            
+ETAAREL ,ETA RELEASE                                                     ,PDI 
+GWSCM1  ,SCM id number 1 for Gateway                                     ,pdmservice     
+KABUILD ,RTC build account                                               ,PDI 
+KACXAPI ,Karlskrona CX API                                               ,PDI 
+LGAUTO  ,User for CICD                                                   ,PDI 
+LTECCAU ,LTE CCA User for daily build                                    ,pdmservice     
+NGSUSER ,Athena Project Functional ID                                    ,PDI 
+PDMPRIM ,System user for integration of PDM Link                         ,PDMLink        
+RBSG2CA ,RBS6000 G2 certified archive user                               ,pdmservice     
+RCSCI1  ,RCS CI Functional User                                          ,PDI 
+RMSUSEP ,RMS PROD SYSTEM USER FOR TRACY INTEGRATI                        ,sapcrm         
+ROTPRIM ,PRIM signum for Rotor access                                    ,Rotor          
+ROTPRIM ,PRIM signum for Rotor access                                    ,Rotor2         
+SGSNINFR,sgsn infra functional id                                        ,pdmservice     
+SUPERCM ,PRIM Super User                                                 ,DURA_PDMTOOL   
+U1PDSRV ,Product Data mgmt SeRVices (EBIP user)                          ,pdmlink        
+U1PDSRV ,Product Data mgmt SeRVices (EBIP user)                          ,EBIP_SWGW      
+U1PDSRV ,Product Data mgmt SeRVices (EBIP user)                          ,MDGInfoHub     
+U1PDSRV ,Product Data mgmt SeRVices (EBIP user)                          ,SWB            
+V1DPRO  ,PDU PC Deployment Pipeline VER RO 1                             ,PDI 
+V1GSMCM ,User for automated tasks for BSS.                               ,PDI 
+V1PISAP ,Access to PRIM from SAP/CBS                                     ,MDM MATERIAL   
+V1PRIMPP,PIM Cloud & Core Networks PP                                    ,PDI 
+V2PDRW  ,PDU PC Deployment Pipeline VER RW 2                             ,PDI 
+ZAPHOD1 ,PC release pipeline                                             ,PDI 

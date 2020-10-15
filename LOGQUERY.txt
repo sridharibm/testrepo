@@ -1,0 +1,20 @@
+SELECT MONTH(TLG.STAMP) AS LOG_DATE , COUNT(DISTINCT(TLG.REQUESTID)) AS TOTALREQUEST   
+FROM U1DB2.HITTLG TLG                                                             
+WHERE MONTH(STAMP) BETWEEN  1 AND 12                                           
+AND DATE(STAMP) > '2020-07-31'                                                 
+GROUP BY MONTH(STAMP)                                                          
+WITH UR;
+
+
+SELECT SUM(NBR_OF_CALLS)
+
+
+SELECT MONTH(TLG.STAMP) AS LOG_MTH , TLG.CHSIGN AS USER,UCASE(CASESERVIC
+AS SERVICE,COUNT(DISTINCT(TLG.REQUESTID)) AS TOTALREQUEST               
+FROM U1DB2.HITTLG TLG                                                   
+WHERE MONTH(TLG.STAMP) BETWEEN  8 AND 12                                
+AND DATE(TLG.STAMP) > '2020-07-31'                                      
+AND TLG.OPERID = 'EUPPWREQ'                                             
+AND CASESERVICE = 'CREATESUBPRODUCT'                                    
+GROUP BY MONTH(TLG.STAMP),UCASE(TLG.CASESERVICE),TLG.CHSIGN             
+WITH UR;                                                                

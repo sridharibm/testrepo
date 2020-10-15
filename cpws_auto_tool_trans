@@ -1,0 +1,12 @@
+SELECT          A.USERID AS "USER",B.COMMONNAME AS "TOOLNAME",    
+                 A.APPLICATION AS "CPWS APPN"                     
+FROM U1DPH0.TXCDLOG A , U1DB2.EUTHRMA B                           
+WHERE A.IPCLIENT = 'EUPWREQ_1'                                    
+AND   B.SIGNATUR = A.USERID                                       
+AND   B.SIGNTYPE IN ('A','O')                                     
+AND   A.LOGDATE >= '2020-08-01'                                   
+AND   A.LOGDATE <= '2020-09-23'                                   
+GROUP BY A.USERID,B.COMMONNAME,A.APPLICATION                      
+WITH UR;                                                          
+                                                                  
+                                                                  

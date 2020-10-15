@@ -1,0 +1,8 @@
+SELECT MONTH(TLG.STAMP) AS LOG_MTH , TLG.CHSIGN AS USER,UCASE(CASESERVICE)  
+AS SERVICE,COUNT(DISTINCT(TLG.REQUESTID)) AS TOTALREQUEST                   
+FROM U1DB2.HITTLG TLG                                                       
+WHERE MONTH(TLG.STAMP) BETWEEN  8 AND 12                                    
+AND DATE(TLG.STAMP) > '2020-07-31'                                          
+AND TLG.OPERID = 'EUPPWREQ'                                                 
+GROUP BY MONTH(TLG.STAMP),UCASE(TLG.CASESERVICE),TLG.CHSIGN                 
+WITH UR;
